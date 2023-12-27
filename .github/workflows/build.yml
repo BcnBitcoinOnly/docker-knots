@@ -24,6 +24,6 @@ jobs:
           cache-to: type=inline
           context: .
           file: v25.1.knots20231115/Dockerfile
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
           push: true
           tags: 1maa/bitcoin:v25.1.knots20231115
