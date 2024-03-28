@@ -8,8 +8,14 @@ on:
 
 jobs:
   build:
-    name: Build v25.1.knots20231115
+    name: Build ${{ matrix.knots-version }}
     runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        knots-version:
+          - v25.1.knots20231115
+          - v26.1.knots20240325
     steps:
       - uses: actions/checkout@v3
       - uses: docker/setup-qemu-action@v3
@@ -20,10 +26,10 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASS }}
       - uses: docker/build-push-action@v5
         with:
-          cache-from: type=registry,ref=1maa/bitcoin:v25.1.knots20231115
+          cache-from: type=registry,ref=1maa/bitcoin:${{ matrix.knots-version }}
           cache-to: type=inline
           context: .
-          file: v25.1.knots20231115/Dockerfile
+          file: ${{ matrix.knots-version }}/Dockerfile
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           push: true
-          tags: 1maa/bitcoin:v25.1.knots20231115
+          tags: 1maa/bitcoin:${{ matrix.knots-version }}
