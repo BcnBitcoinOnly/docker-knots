@@ -69,8 +69,6 @@ FROM alpine:3.19
 
 COPY --from=builder /usr/local/bin/* /usr/local/bin/
 
-COPY bitcoin.conf /etc/bitcoin/bitcoin.conf
-
 RUN adduser -D bitcoin
 
 USER bitcoin
@@ -82,13 +80,15 @@ VOLUME /home/bitcoin/.bitcoin
 # REST interface
 EXPOSE 8080
 
-# P2P network (mainnet, testnet & regnet respectively)
-EXPOSE 8333 18333 18444
+# P2P network (mainnet, testnet, regtest & signet respectively)
+EXPOSE 8333 18333 18444 38333
 
-# RPC interface (mainnet, testnet & regnet respectively)
-EXPOSE 8332 18332 18443
+# RPC interface (mainnet, testnet, regtest & signet respectively)
+EXPOSE 8332 18332 18443 38332
 
 # ZMQ ports (for transactions & blocks respectively)
 EXPOSE 28332 28333
 
-CMD ["/usr/local/bin/bitcoind", "-conf=/etc/bitcoin/bitcoin.conf"]
+ENTRYPOINT ["/usr/local/bin/bitcoind", "-nodebuglogfile"]
+
+CMD ["-zmqpubrawblock=tcp://0.0.0.0:28332", "-zmqpubrawtx=tcp://0.0.0.0:28333"]
