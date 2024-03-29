@@ -86,7 +86,7 @@ EXPOSE 8333 18333 18444 38333
 # RPC interface (mainnet, testnet, regtest & signet respectively)
 EXPOSE 8332 18332 18443 38332
 
-# ZMQ ports (for transactions & blocks respectively)
+# ZMQ ports (for blocks & transactions respectively)
 EXPOSE 28332 28333
 
 ENTRYPOINT ["/usr/local/bin/bitcoind", "-nodebuglogfile"]
