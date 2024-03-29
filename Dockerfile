@@ -1,12 +1,13 @@
 FROM alpine:3.18 AS builder
 
-ARG KNOTS_VERSION=25.1.knots20231115
+ARG KNOTS_RELEASE=26.1.knots20240325
+ARG KNOTS_VERSION=26
 
 WORKDIR /tmp
 
-ADD https://bitcoinknots.org/files/25.x/${KNOTS_VERSION}/SHA256SUMS .
-ADD https://bitcoinknots.org/files/25.x/${KNOTS_VERSION}/SHA256SUMS.asc .
-ADD https://bitcoinknots.org/files/25.x/${KNOTS_VERSION}/bitcoin-${KNOTS_VERSION}.tar.gz .
+ADD https://bitcoinknots.org/files/${KNOTS_VERSION}.x/${KNOTS_RELEASE}/SHA256SUMS .
+ADD https://bitcoinknots.org/files/${KNOTS_VERSION}.x/${KNOTS_RELEASE}/SHA256SUMS.asc .
+ADD https://bitcoinknots.org/files/${KNOTS_VERSION}.x/${KNOTS_RELEASE}/bitcoin-${KNOTS_RELEASE}.tar.gz .
 
 COPY builder_pubkeys.pem .
 
@@ -28,21 +29,21 @@ RUN apk add --no-cache \
     linux-headers \
     pkgconf
 
-RUN tar zxf bitcoin-${KNOTS_VERSION}.tar.gz
+RUN tar zxf bitcoin-${KNOTS_RELEASE}.tar.gz
 
-RUN ./bitcoin-${KNOTS_VERSION}/autogen.sh
+RUN ./bitcoin-${KNOTS_RELEASE}/autogen.sh
 
-RUN make -C bitcoin-${KNOTS_VERSION}/depends -j$(nproc) NO_QT=1 NO_NATPMP=1 NO_UPNP=1 NO_USDT=1
+RUN make -C bitcoin-${KNOTS_RELEASE}/depends -j$(nproc) NO_QT=1 NO_NATPMP=1 NO_UPNP=1 NO_USDT=1
 
 ENV CFLAGS="-O2 --static -static -fPIC"
 ENV CXXFLAGS="-O2 --static -static -fPIC"
 ENV LDFLAGS="-s -static-libgcc -static-libstdc++"
 
-RUN ARCH_TRIPLET=$(find /tmp/bitcoin-${KNOTS_VERSION}/depends | grep -E "config\.site$" | cut -d/ -f 5) \
+RUN CONFIG_SITE=$(find /tmp/bitcoin-${KNOTS_RELEASE}/depends | grep -E "config\.site$") \
  && mkdir build \
  && cd build \
- && ../bitcoin-${KNOTS_VERSION}/configure \
-    CONFIG_SITE=/tmp/bitcoin-${KNOTS_VERSION}/depends/${ARCH_TRIPLET}/share/config.site \
+ && ../bitcoin-${KNOTS_RELEASE}/configure \
+    CONFIG_SITE=${CONFIG_SITE} \
     --disable-bench \
     --disable-fuzz-binary \
     --disable-gui-tests \
@@ -89,6 +90,4 @@ EXPOSE 8332 18332 18443 38332
 # ZMQ ports (for blocks & transactions respectively)
 EXPOSE 28332 28333
 
-ENTRYPOINT ["/usr/local/bin/bitcoind", "-nodebuglogfile"]
-
-CMD ["-zmqpubrawblock=tcp://0.0.0.0:28332", "-zmqpubrawtx=tcp://0.0.0.0:28333"]
+ENTRYPOINT ["/usr/local/bin/bitcoind", "-nodebuglogfile", "-zmqpubrawblock=tcp://0.0.0.0:28332", "-zmqpubrawtx=tcp://0.0.0.0:28333"]
