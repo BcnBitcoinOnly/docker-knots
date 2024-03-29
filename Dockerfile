@@ -1,13 +1,13 @@
-FROM alpine:3.18 AS builder
+FROM alpine:3.19 AS verifier
 
-ARG KNOTS_RELEASE=26.1.knots20240325
-ARG KNOTS_VERSION=26
+ARG KNOTS_VERSION
 
 WORKDIR /tmp
 
-ADD https://bitcoinknots.org/files/${KNOTS_VERSION}.x/${KNOTS_RELEASE}/SHA256SUMS .
-ADD https://bitcoinknots.org/files/${KNOTS_VERSION}.x/${KNOTS_RELEASE}/SHA256SUMS.asc .
-ADD https://bitcoinknots.org/files/${KNOTS_VERSION}.x/${KNOTS_RELEASE}/bitcoin-${KNOTS_RELEASE}.tar.gz .
+RUN KNOTS_MAJOR_VERSION=$(echo ${KNOTS_VERSION} | cut -c1-2) \
+ && wget https://bitcoinknots.org/files/${KNOTS_MAJOR_VERSION}.x/${KNOTS_VERSION}/SHA256SUMS \
+ && wget https://bitcoinknots.org/files/${KNOTS_MAJOR_VERSION}.x/${KNOTS_VERSION}/SHA256SUMS.asc \
+ && wget https://bitcoinknots.org/files/${KNOTS_MAJOR_VERSION}.x/${KNOTS_VERSION}/bitcoin-${KNOTS_VERSION}.tar.gz
 
 COPY builder_pubkeys.pem .
 
@@ -19,6 +19,15 @@ RUN apk add --no-cache \
  && gpg --verify SHA256SUMS.asc SHA256SUMS \
  && sha256sum --ignore-missing -c SHA256SUMS
 
+
+FROM alpine:3.18 AS builder
+
+ARG KNOTS_VERSION
+
+WORKDIR /tmp
+
+COPY --from=verifier /tmp/bitcoin-${KNOTS_VERSION}.tar.gz .
+
 RUN apk add --no-cache \
     autoconf \
     automake \
@@ -29,20 +38,20 @@ RUN apk add --no-cache \
     linux-headers \
     pkgconf
 
-RUN tar zxf bitcoin-${KNOTS_RELEASE}.tar.gz
+RUN tar zxf bitcoin-${KNOTS_VERSION}.tar.gz
 
-RUN ./bitcoin-${KNOTS_RELEASE}/autogen.sh
+RUN ./bitcoin-${KNOTS_VERSION}/autogen.sh
 
-RUN make -C bitcoin-${KNOTS_RELEASE}/depends -j$(nproc) NO_QT=1 NO_NATPMP=1 NO_UPNP=1 NO_USDT=1
+RUN make -C bitcoin-${KNOTS_VERSION}/depends -j$(nproc) NO_QT=1 NO_NATPMP=1 NO_UPNP=1 NO_USDT=1
 
 ENV CFLAGS="-O2 --static -static -fPIC"
 ENV CXXFLAGS="-O2 --static -static -fPIC"
 ENV LDFLAGS="-s -static-libgcc -static-libstdc++"
 
-RUN CONFIG_SITE=$(find /tmp/bitcoin-${KNOTS_RELEASE}/depends | grep -E "config\.site$") \
+RUN CONFIG_SITE=$(find /tmp/bitcoin-${KNOTS_VERSION}/depends | grep -E "config\.site$") \
  && mkdir build \
  && cd build \
- && ../bitcoin-${KNOTS_RELEASE}/configure \
+ && ../bitcoin-${KNOTS_VERSION}/configure \
     CONFIG_SITE=${CONFIG_SITE} \
     --disable-bench \
     --disable-fuzz-binary \
@@ -66,7 +75,7 @@ RUN make -C ./build -j$(nproc)
 RUN make -C ./build install
 
 
-FROM alpine:3.19
+FROM alpine:3.19 AS final
 
 COPY --from=builder /usr/local/bin/* /usr/local/bin/
 
