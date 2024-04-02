@@ -79,13 +79,15 @@ FROM alpine:3.19 AS final
 
 COPY --from=builder /usr/local/bin/* /usr/local/bin/
 
-RUN adduser -D bitcoin
+RUN apk add --no-cache \
+    tor \
+ && adduser -D bitcoin \
+ && mkdir /home/bitcoin/.bitcoin \
+ && chown bitcoin:bitcoin /home/bitcoin/.bitcoin
 
 USER bitcoin
 
-RUN mkdir /home/bitcoin/.bitcoin
-
-VOLUME /home/bitcoin/.bitcoin
+VOLUME ["/home/bitcoin/.bitcoin"]
 
 # REST interface
 EXPOSE 8080
