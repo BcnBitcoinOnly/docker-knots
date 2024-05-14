@@ -28,6 +28,7 @@ services:
 
 ## Available Versions
 
+* 1maa/bitcoin:v26.1.knots20240513
 * 1maa/bitcoin:v26.1.knots20240325
 * 1maa/bitcoin:v25.1.knots20231115
 
