@@ -20,7 +20,7 @@ RUN apk add --no-cache \
  && sha256sum --ignore-missing -c SHA256SUMS
 
 
-FROM alpine:3.20 AS builder
+FROM alpine:3.18 AS builder
 
 ARG KNOTS_VERSION
 
@@ -32,7 +32,6 @@ RUN apk add --no-cache \
     autoconf \
     automake \
     build-base \
-    clang18 \
     curl \
     git \
     libtool \
@@ -42,9 +41,6 @@ RUN apk add --no-cache \
 RUN tar zxf bitcoin-${KNOTS_VERSION}.tar.gz
 
 RUN ./bitcoin-${KNOTS_VERSION}/autogen.sh
-
-ENV CC=clang-18
-ENV CXX=clang++-18
 
 RUN make -C bitcoin-${KNOTS_VERSION}/depends -j$(nproc) NO_QT=1 NO_NATPMP=1 NO_UPNP=1 NO_USDT=1
 
@@ -63,6 +59,7 @@ RUN CONFIG_SITE=$(find /tmp/bitcoin-${KNOTS_VERSION}/depends | grep -E "config\.
     --disable-maintainer-mode \
     --disable-man \
     --disable-tests \
+    --enable-lto \
     --with-daemon=yes \
     --with-gui=no \
     --with-libmultiprocess=no \
