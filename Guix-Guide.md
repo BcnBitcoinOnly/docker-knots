@@ -54,6 +54,7 @@ To be able to download these files you'll need to use a browser that is logged i
 
 | Bitcoin Knots Version | XCode Version    | SHA256 Digest                                                      |
 |-----------------------|------------------|--------------------------------------------------------------------|
+| v27.1.knots20240621   | [Xcode_15.xip]   | `4daaed2ef2253c9661779fa40bfff50655dc7ec45801aba5a39653e7bcdde48e` |
 | v26.1.knots20240513   | [Xcode_12.2.xip] | `28d352f8c14a43d9b8a082ac6338dc173cb153f964c6e8fb6ba389e5be528bd0` |
 | v26.1.knots20240325   | [Xcode_12.2.xip] | `28d352f8c14a43d9b8a082ac6338dc173cb153f964c6e8fb6ba389e5be528bd0` |
 | v25.1.knots20231115   | [Xcode_12.2.xip] | `28d352f8c14a43d9b8a082ac6338dc173cb153f964c6e8fb6ba389e5be528bd0` |
@@ -73,34 +74,33 @@ $ python3 apple-sdk-tools/extract_xcode.py -f Downloads/Xcode_12.2.xip | cpio -d
 This will create a huge `Xcode.app` folder in your home directory.
 Now clone the Bitcoin Knots repository to run another helper script that will take this directory and prepare an "Xcode SDK" from it.
 Since we are cloning the Knots repo take the opportunity to check out the specific version you want to build.
-In this guide we are building Bitcoin Knots v26.1.knots20240513, so we'll check out the `v26.1.knots20240513` tag.
+In this guide we are building Bitcoin Knots v27.1.knots20240621, so we'll check out the `v27.1.knots20240621` tag.
 
 ```shell
 $ cd $HOME
 $ git clone https://github.com/bitcoinknots/bitcoin knots
 $ cd knots
-$ git checkout v26.1.knots20240513
+$ git checkout v27.1.knots20240621
 $ cd ..
 $ ./knots/contrib/macdeploy/gen-sdk $HOME/Xcode.app
-Found Xcode (version: 12.2, build id: 12B45b)
-Found MacOSX SDK (version: 11.0, build id: 20A2408)
+Found Xcode (version: 15.0, build id: 15A240d)
+Found MacOSX SDK (version: 14.0, build id: 23A334)
 Creating output .tar.gz file...
-Adding MacOSX SDK 11.0 files...
-Adding libc++ headers...
+Adding MacOSX SDK 14.0 files...
 Done! Find the resulting gzipped tarball at:
-/home/you/Xcode-12.2-12B45b-extracted-SDK-with-libcxx-headers.tar.gz
+/home/you/Xcode-15.0-15A240d-extracted-SDK-with-libcxx-headers.tar.gz
 ```
 
-The `gen-sdk` command will generate an `Xcode-12.2-12B45b-extracted-SDK-with-libcxx-headers.tar.gz` file in your home directory.
+The `gen-sdk` command will generate an `Xcode-15.0-15A240d-extracted-SDK-with-libcxx-headers.tar.gz` file in your home directory.
 It contains the Apple bits that Bitcoin Knots needs to perform deterministic builds for MacOS.
 Now create a dedicated folder in your home directory for MacOS SDKs and extract this .tar.gz in it:
 
 ```shell
 $ cd $HOME
 $ mkdir MacOS-SDKs
-$ mv Xcode-12.2-12B45b-extracted-SDK-with-libcxx-headers.tar.gz MacOS-SDKs
+$ mv Xcode-15.0-15A240d-extracted-SDK-with-libcxx-headers.tar.gz MacOS-SDKs
 $ cd MacOS-SDKs
-$ tar zxf Xcode-12.2-12B45b-extracted-SDK-with-libcxx-headers.tar.gz
+$ tar zxf Xcode-15.0-15A240d-extracted-SDK-with-libcxx-headers.tar.gz
 ```
 
 With this folder structure in place we're ready to do Guix MacOS builds.
@@ -140,25 +140,20 @@ Now it's a good time to let your machine do the deed and take a break.
 
 ## Attesting the deterministic build with PGP
 
-After the build completes check that it didn't error out and proceed to clone Knots' `bitcoin-detached-sigs` repository
-to generate a few more build artifacts.
-
-For this process to work you need to check out the corresponding tag inside this repo to the version you have built.
-
-Still in the `knots` directory:
+After the build completes check that it didn't error out:
 
 ```shell
 $ echo $?
 0
 ```
 
-Then move on to clone the detached signatures and codesign:
+Then proceed to clone Knots' `bitcoin-detached-sigs` repository to generate a few more build artifacts:
 
 ```shell
 $ cd $HOME 
 $ git clone https://github.com/bitcoinknots/bitcoin-detached-sigs knots-detached-sigs
 $ cd knots-detached-sigs
-$ git checkout v26.1.knots20240513
+$ git checkout v27.1.knots20240621
 $ cd $HOME
 $ cd knots
 $ env HOSTS='arm64-apple-darwin x86_64-apple-darwin' DETACHED_SIGS_REPO="$HOME/knots-detached-sigs/" ./contrib/guix/guix-codesign
@@ -214,8 +209,9 @@ I've put this guide together from the following sources:
 [Bitcoin Knots]: https://github.com/bitcoinknots/bitcoin/
 [Knots' website]: https://bitcoinknots.org/
 [Apple's developer portal]: https://developer.apple.com/
+[Xcode_15.xip]: https://developer.apple.com/services-account/download?path=/Developer_Tools/Xcode_15/Xcode_15.xip
 [Xcode_12.2.xip]: https://developer.apple.com/services-account/download?path=/Developer_Tools/Xcode_12.2/Xcode_12.2.xip
-[`contrib/macdeploy`]: https://github.com/bitcoinknots/bitcoin/tree/v26.1.knots20240513/contrib/macdeploy
+[`contrib/macdeploy`]: https://github.com/bitcoinknots/bitcoin/tree/v27.1.knots20240621/contrib/macdeploy
 [`apple-sdk-tools`]: https://github.com/bitcoin-core/apple-sdk-tools
 [`guix.sigs`]: https://github.com/bitcoinknots/guix.sigs
 [this one]: https://github.com/bitcoinknots/guix.sigs/pull/18/files
