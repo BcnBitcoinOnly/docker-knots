@@ -21,13 +21,14 @@ name: knots-signet
 
 services:
   knots:
-    image: 1maa/bitcoin:v26.1.knots20240325
+    image: 1maa/bitcoin:v27.1.knots20240621
     command: -signet -txindex=1
 ```
 
 
 ## Available Versions
 
+* 1maa/bitcoin:v27.1.knots20240621
 * 1maa/bitcoin:v26.1.knots20240513
 * 1maa/bitcoin:v26.1.knots20240325
 * 1maa/bitcoin:v25.1.knots20231115
