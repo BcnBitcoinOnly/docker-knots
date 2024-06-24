@@ -1,6 +1,6 @@
 # Docker Knots
 
-Docker images of [Bitcoin Knots](https://bitcoinknots.org/) for the `linux/amd64`, `linux/arm64` and `linux/arm/v7` architectures.
+Docker images of [Bitcoin Knots](https://bitcoinknots.org/) for the `linux/amd64`, `linux/arm64`, `linux/arm/v7` and `linux/ppc64le` architectures.
 
 The images are based on [Alpine Linux](https://alpinelinux.org/) and run bitcoind without a configuration file.
 
