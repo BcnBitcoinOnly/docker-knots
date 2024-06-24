@@ -172,7 +172,7 @@ $ env GUIX_SIGS_REPO="$HOME/guix.sigs" SIGNER=you ./contrib/guix/guix-attest
 For that last command to work you need to have a PGP key loaded in your local keyring identifiable by that username (`you` in this example).
 If that doesn't work you can use the full key ID instead.
 
-If the command succeeds a new directory named `you` (or the key ID) will have been created inside the `guix.sigs/26.1.knots20240513` directory (or the release you built).
+If the command succeeds a new directory named `you` (or the key ID) will have been created inside the `guix.sigs/27.1.knots20240621` directory (or the release you built).
 You can rename this directory to whatever you like, especially if it has been named after a key ID.
 
 In a successful attestation this directory will contain 4 files: `all.SHA256SUMS`, `all.SHA256SUMS.asc`, `noncodesigned.SHA256SUMS` and `noncodesigned.SHA256SUMS.asc`.
@@ -182,7 +182,7 @@ The following diffs should not show any differences:
 
 ```shell
 $ cd $HOME
-$ cd guix.sigs/26.1.knots20240513
+$ cd guix.sigs/27.1.knots20240621
 $ diff luke-jr/all.SHA256SUMS you/all.SHA256SUMS
 $ diff luke-jr/noncodesigned.SHA256SUMS you/noncodesigned.SHA256SUMS
 ```
