@@ -36,6 +36,6 @@ services:
 
 ## Deterministic Build Guide
 
-The binaries contained in these images are built from source automatically with GitHub actions, but they are not deterministic.
+The binaries contained in these images are built automatically from source using GitHub actions, but they are not deterministic.
 
 For a step-by-step guide to do a deterministic build of Bitcoin Knots and attest the resulting binaries with your PGP key check out [the Guix guide](Guix-Guide.md).

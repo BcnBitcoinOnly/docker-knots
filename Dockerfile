@@ -1,3 +1,5 @@
+ARG ALPINE_BUILDER_VERSION
+
 FROM alpine:3.20 AS verifier
 
 ARG KNOTS_VERSION
@@ -20,7 +22,7 @@ RUN apk add --no-cache \
  && sha256sum --ignore-missing -c SHA256SUMS
 
 
-FROM alpine:3.18 AS builder
+FROM alpine:${ALPINE_BUILDER_VERSION} AS builder
 
 ARG KNOTS_VERSION
 
