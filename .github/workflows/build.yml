@@ -8,12 +8,17 @@ on:
 
 jobs:
   build:
-    name: Build v${{ matrix.versions.knots }}
+    name: Build v${{ matrix.version.knots }} for ${{ matrix.architecture }}
     runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
-        versions:
+        architecture:
+          - linux/amd64
+          - linux/arm64
+          - linux/arm/v7
+          - linux/ppc64le
+        version:
           - { knots: "27.1.knots20240621", alpine-builder: "3.20" }
           - { knots: "26.1.knots20240513", alpine-builder: "3.20" }
           - { knots: "26.1.knots20240325", alpine-builder: "3.18" }
@@ -29,11 +34,11 @@ jobs:
       - uses: docker/build-push-action@v5
         with:
           build-args: |
-            KNOTS_VERSION=${{ matrix.versions.knots }}
-            ALPINE_BUILDER_VERSION=${{ matrix.versions.alpine-builder }}
-          cache-from: type=registry,ref=1maa/bitcoin:v${{ matrix.versions.knots }}
+            KNOTS_VERSION=${{ matrix.version.knots }}
+            ALPINE_BUILDER_VERSION=${{ matrix.version.alpine-builder }}
+          cache-from: type=registry,ref=1maa/bitcoin:v${{ matrix.version.knots }}
           cache-to: type=inline
           context: .
-          platforms: linux/amd64,linux/arm64,linux/arm/v7,linux/ppc64le
+          platforms: ${{ matrix.architecture }}
           push: true
-          tags: 1maa/bitcoin:v${{ matrix.versions.knots }}
+          tags: 1maa/bitcoin:v${{ matrix.version.knots }}
