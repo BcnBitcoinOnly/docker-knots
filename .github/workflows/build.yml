@@ -8,27 +8,16 @@ on:
 
 jobs:
   build:
-    name: Build v${{ matrix.version.knots }} for ${{ matrix.architecture }}
+    name: Build v${{ matrix.version.knots }}
     runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
-        architecture:
-          - linux/amd64
-          - linux/arm/v7
-          - linux/arm64
-          - linux/ppc64le
-          - linux/riscv64
         version:
           - { knots: "27.1.knots20240621", alpine-builder: "3.20" }
           - { knots: "26.1.knots20240513", alpine-builder: "3.20" }
           - { knots: "26.1.knots20240325", alpine-builder: "3.18" }
           - { knots: "25.1.knots20231115", alpine-builder: "3.18" }
-        exclude:
-          - version: { knots: "26.1.knots20240325", alpine-builder: "3.18" }
-            architecture: linux/riscv64
-          - version: { knots: "25.1.knots20231115", alpine-builder: "3.18" }
-            architecture: linux/riscv64
     steps:
       - uses: actions/checkout@v4
       - uses: docker/setup-qemu-action@v3
@@ -45,6 +34,6 @@ jobs:
           cache-from: type=registry,ref=1maa/bitcoin:v${{ matrix.version.knots }}
           cache-to: type=inline
           context: .
-          platforms: ${{ matrix.architecture }}
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
           push: true
           tags: 1maa/bitcoin:v${{ matrix.version.knots }}
