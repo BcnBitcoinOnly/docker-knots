@@ -1,4 +1,4 @@
-ARG ALPINE_BUILDER_VERSION
+ARG ALPINE_BUILDER_VERSION=3.18
 
 FROM alpine:3.20 AS verifier
 
@@ -106,7 +106,7 @@ EXPOSE 8333 18333 18444 38333
 # RPC interface (mainnet, testnet, regtest & signet respectively)
 EXPOSE 8332 18332 18443 38332
 
-# ZMQ ports (for blocks & transactions respectively)
-EXPOSE 28332 28333
+# ZMQ ports (for block hashes, raw blocks & raw transactions respectively)
+EXPOSE 8443 28332 28333
 
-ENTRYPOINT ["/usr/local/bin/bitcoind", "-nodebuglogfile", "-zmqpubrawblock=tcp://0.0.0.0:28332", "-zmqpubrawtx=tcp://0.0.0.0:28333"]
+ENTRYPOINT ["/usr/local/bin/bitcoind", "-nodebuglogfile", "-zmqpubhashblock=tcp://0.0.0.0:8443", "-zmqpubrawblock=tcp://0.0.0.0:28332", "-zmqpubrawtx=tcp://0.0.0.0:28333"]

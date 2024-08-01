@@ -11,7 +11,7 @@ This is the images' default `ENTRYPOINT`.
 Adjust the `CMD` if you want to run the bitcoind daemon with a different configuration.
 
 ```dockerfile
-ENTRYPOINT ["/usr/local/bin/bitcoind", "-nodebuglogfile", "-zmqpubrawblock=tcp://0.0.0.0:28332", "-zmqpubrawtx=tcp://0.0.0.0:28333"]
+ENTRYPOINT ["/usr/local/bin/bitcoind", "-nodebuglogfile", "-zmqpubhashblock=tcp://0.0.0.0:8443", "-zmqpubrawblock=tcp://0.0.0.0:28332", "-zmqpubrawtx=tcp://0.0.0.0:28333"]
 ```
 
 Customization example based on Docker Compose v2:
