@@ -14,6 +14,7 @@ jobs:
       fail-fast: false
       matrix:
         version:
+          - { knots: "27.1.knots20240801", alpine-builder: "3.20" }
           - { knots: "27.1.knots20240621", alpine-builder: "3.20" }
           - { knots: "26.1.knots20240513", alpine-builder: "3.20" }
           - { knots: "26.1.knots20240325", alpine-builder: "3.18" }
