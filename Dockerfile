@@ -11,13 +11,13 @@ RUN KNOTS_MAJOR_VERSION=$(echo ${KNOTS_VERSION} | cut -c1-2) \
  && wget https://bitcoinknots.org/files/${KNOTS_MAJOR_VERSION}.x/${KNOTS_VERSION}/SHA256SUMS.asc \
  && wget https://bitcoinknots.org/files/${KNOTS_MAJOR_VERSION}.x/${KNOTS_VERSION}/bitcoin-${KNOTS_VERSION}.tar.gz
 
-COPY builder_pubkeys.pem .
-
 RUN apk add --no-cache \
     coreutils \
+    curl \
     gnupg \
     gnupg-keyboxd \
- && gpg --import builder_pubkeys.pem \
+    jq \
+ && curl -s https://api.github.com/repos/bitcoinknots/guix.sigs/contents/builder-keys | jq -r '.[].download_url' | while read url; do curl -s "$url" | gpg --import; done \
  && gpg --verify SHA256SUMS.asc SHA256SUMS \
  && sha256sum --ignore-missing -c SHA256SUMS
 
