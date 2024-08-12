@@ -54,6 +54,7 @@ To be able to download these files you'll need to use a browser that is logged i
 
 | Bitcoin Knots Version | XCode Version    | SHA256 Digest                                                      |
 |-----------------------|------------------|--------------------------------------------------------------------|
+| v27.1.knots20240801   | [Xcode_15.xip]   | `4daaed2ef2253c9661779fa40bfff50655dc7ec45801aba5a39653e7bcdde48e` |
 | v27.1.knots20240621   | [Xcode_15.xip]   | `4daaed2ef2253c9661779fa40bfff50655dc7ec45801aba5a39653e7bcdde48e` |
 | v26.1.knots20240513   | [Xcode_12.2.xip] | `28d352f8c14a43d9b8a082ac6338dc173cb153f964c6e8fb6ba389e5be528bd0` |
 | v26.1.knots20240325   | [Xcode_12.2.xip] | `28d352f8c14a43d9b8a082ac6338dc173cb153f964c6e8fb6ba389e5be528bd0` |
@@ -61,26 +62,26 @@ To be able to download these files you'll need to use a browser that is logged i
 
 (Note: browse the README.md file from the [`contrib/macdeploy`] directory in Bitcoin Knots at the desired tag version to cross-check this information)
 
-Assuming you downloaded `Xcode_12.2.xip` into your `$HOME/Downloads` folder, now install the `git` and `cpio` packages,
+Assuming you downloaded `Xcode_15.xip` into your `$HOME/Downloads` folder, now install the `git` and `cpio` packages,
 clone Bitcoin Core's [`apple-sdk-tools`] repository and use its `extract_xcode.py` script and `cpio` to extract the xip archive.
 
 ```shell
 $ cd $HOME
 $ sudo apt install cpio git
 $ git clone https://github.com/bitcoin-core/apple-sdk-tools
-$ python3 apple-sdk-tools/extract_xcode.py -f Downloads/Xcode_12.2.xip | cpio -d -i
+$ python3 apple-sdk-tools/extract_xcode.py -f Downloads/Xcode_15.xip | cpio -d -i
 ```
 
 This will create a huge `Xcode.app` folder in your home directory.
 Now clone the Bitcoin Knots repository to run another helper script that will take this directory and prepare an "Xcode SDK" from it.
 Since we are cloning the Knots repo take the opportunity to check out the specific version you want to build.
-In this guide we are building Bitcoin Knots v27.1.knots20240621, so we'll check out the `v27.1.knots20240621` tag.
+In this guide we are building Bitcoin Knots v27.1.knots20240801, so we'll check out the `v27.1.knots20240801` tag.
 
 ```shell
 $ cd $HOME
 $ git clone https://github.com/bitcoinknots/bitcoin knots
 $ cd knots
-$ git checkout v27.1.knots20240621
+$ git checkout v27.1.knots20240801
 $ cd ..
 $ ./knots/contrib/macdeploy/gen-sdk $HOME/Xcode.app
 Found Xcode (version: 15.0, build id: 15A240d)
@@ -113,7 +114,7 @@ Start by creating a couple of temporary folders in your home directory that the 
 
 ```shell
 $ cd $HOME
-$ mkdir depends-SOURCES_PATH depends-BASE_PATH
+$ mkdir depends-SOURCES_PATH depends-BASE_CACHE
 ```
 
 At this stage we're almost ready to start the build proper.
@@ -153,7 +154,7 @@ Then proceed to clone Knots' `bitcoin-detached-sigs` repository to generate a fe
 $ cd $HOME 
 $ git clone https://github.com/bitcoinknots/bitcoin-detached-sigs knots-detached-sigs
 $ cd knots-detached-sigs
-$ git checkout v27.1.knots20240621
+$ git checkout v27.1.knots20240801
 $ cd $HOME
 $ cd knots
 $ env HOSTS='arm64-apple-darwin x86_64-apple-darwin' DETACHED_SIGS_REPO="$HOME/knots-detached-sigs/" ./contrib/guix/guix-codesign
@@ -172,7 +173,7 @@ $ env GUIX_SIGS_REPO="$HOME/guix.sigs" SIGNER=you ./contrib/guix/guix-attest
 For that last command to work you need to have a PGP key loaded in your local keyring identifiable by that username (`you` in this example).
 If that doesn't work you can use the full key ID instead.
 
-If the command succeeds a new directory named `you` (or the key ID) will have been created inside the `guix.sigs/27.1.knots20240621` directory (or the release you built).
+If the command succeeds a new directory named `you` (or the key ID) will have been created inside the `guix.sigs/27.1.knots20240801` directory (or the release you built).
 You can rename this directory to whatever you like, especially if it has been named after a key ID.
 
 In a successful attestation this directory will contain 4 files: `all.SHA256SUMS`, `all.SHA256SUMS.asc`, `noncodesigned.SHA256SUMS` and `noncodesigned.SHA256SUMS.asc`.
@@ -182,9 +183,18 @@ The following diffs should not show any differences:
 
 ```shell
 $ cd $HOME
-$ cd guix.sigs/27.1.knots20240621
+$ cd guix.sigs/27.1.knots20240801
 $ diff luke-jr/all.SHA256SUMS you/all.SHA256SUMS
 $ diff luke-jr/noncodesigned.SHA256SUMS you/noncodesigned.SHA256SUMS
+```
+
+Also, if it's the first time attesting a Knots release you must include an ASCII-armored copy of your PGP public key in the `builder-keys` directory.
+This simplifies finding your public key when someone needs to verify your signatures from here on.
+
+The name of the key should match the name of the directory where you stored your attestation (e.g. `guix.sigs/27.1.knots20240801/you`).
+
+```shell
+$ gpg --armor --export you > builder-keys/you.gpg
 ```
 
 If everything looks good you can commit the attestation in a new branch to prepare your submission.
@@ -211,7 +221,7 @@ I've put this guide together from the following sources:
 [Apple's developer portal]: https://developer.apple.com/
 [Xcode_15.xip]: https://developer.apple.com/services-account/download?path=/Developer_Tools/Xcode_15/Xcode_15.xip
 [Xcode_12.2.xip]: https://developer.apple.com/services-account/download?path=/Developer_Tools/Xcode_12.2/Xcode_12.2.xip
-[`contrib/macdeploy`]: https://github.com/bitcoinknots/bitcoin/tree/v27.1.knots20240621/contrib/macdeploy
+[`contrib/macdeploy`]: https://github.com/bitcoinknots/bitcoin/tree/v27.1.knots20240801/contrib/macdeploy
 [`apple-sdk-tools`]: https://github.com/bitcoin-core/apple-sdk-tools
 [`guix.sigs`]: https://github.com/bitcoinknots/guix.sigs
 [this one]: https://github.com/bitcoinknots/guix.sigs/pull/18/files
