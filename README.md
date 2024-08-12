@@ -40,3 +40,10 @@ services:
 The binaries contained in these images are built automatically from source using GitHub actions, but they are not deterministic.
 
 For a step-by-step guide to do a deterministic build of Bitcoin Knots and attest the resulting binaries with your PGP key check out [the Guix guide](Guix-Guide.md).
+
+
+## Signet Miner
+
+This image includes the sources of the CPU signet miner from `contrib/signet`.
+
+For an example on how to use this image in signet mining mode refer to the `miner` service in the compose.yml file of the [signet-playground](https://github.com/BcnBitcoinOnly/signet-playground/blob/master/compose.yml) repository.
