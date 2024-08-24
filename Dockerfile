@@ -33,6 +33,7 @@ COPY --from=verifier /tmp/bitcoin-${KNOTS_VERSION}.tar.gz .
 RUN apk add --no-cache \
     autoconf \
     automake \
+    bash \
     build-base \
     curl \
     git \
