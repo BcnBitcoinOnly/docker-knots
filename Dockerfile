@@ -1,6 +1,6 @@
 ARG ALPINE_BUILDER_VERSION=3.18
 
-FROM alpine:3.20 AS verifier
+FROM alpine:3.21 AS verifier
 
 ARG KNOTS_VERSION
 
@@ -78,7 +78,7 @@ RUN make -C ./build -j$(nproc)
 RUN make -C ./build install
 
 
-FROM alpine:3.20 AS final
+FROM alpine:3.21 AS final
 
 ARG KNOTS_VERSION
 
