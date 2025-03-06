@@ -28,11 +28,10 @@ services:
 
 ## Available Versions
 
+* `1maa/bitcoin:v28.1.knots20250305`
 * `1maa/bitcoin:v27.1.knots20240801`
 * `1maa/bitcoin:v27.1.knots20240621`
 * `1maa/bitcoin:v26.1.knots20240513`
-* `1maa/bitcoin:v26.1.knots20240325`
-* `1maa/bitcoin:v25.1.knots20231115`
 
 
 ## Deterministic Build Guide

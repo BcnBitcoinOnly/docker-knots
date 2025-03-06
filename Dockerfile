@@ -1,5 +1,3 @@
-ARG ALPINE_BUILDER_VERSION=3.18
-
 FROM alpine:3.21 AS verifier
 
 ARG KNOTS_VERSION
@@ -22,7 +20,7 @@ RUN apk add --no-cache \
  && sha256sum --ignore-missing -c SHA256SUMS
 
 
-FROM alpine:${ALPINE_BUILDER_VERSION} AS builder
+FROM alpine:3.21 AS builder
 
 ARG KNOTS_VERSION
 
@@ -35,6 +33,7 @@ RUN apk add --no-cache \
     automake \
     bash \
     build-base \
+    cmake \
     curl \
     git \
     libtool \

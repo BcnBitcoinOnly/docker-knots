@@ -14,11 +14,10 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - { knots: "27.1.knots20240801", alpine-builder: "3.21" }
-          - { knots: "27.1.knots20240621", alpine-builder: "3.21" }
-          - { knots: "26.1.knots20240513", alpine-builder: "3.21" }
-          - { knots: "26.1.knots20240325", alpine-builder: "3.18" }
-          - { knots: "25.1.knots20231115", alpine-builder: "3.18" }
+          - { knots: "28.1.knots20250305" }
+          - { knots: "27.1.knots20240801" }
+          - { knots: "27.1.knots20240621" }
+          - { knots: "26.1.knots20240513" }
     steps:
       - uses: actions/checkout@v4
       - uses: docker/setup-qemu-action@v3
@@ -31,7 +30,6 @@ jobs:
         with:
           build-args: |
             KNOTS_VERSION=${{ matrix.version.knots }}
-            ALPINE_BUILDER_VERSION=${{ matrix.version.alpine-builder }}
           cache-from: type=registry,ref=1maa/bitcoin:v${{ matrix.version.knots }}
           cache-to: type=inline
           context: .
