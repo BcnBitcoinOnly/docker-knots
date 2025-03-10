@@ -54,11 +54,10 @@ To be able to download these files you'll need to use a browser that is logged i
 
 | Bitcoin Knots Version | XCode Version    | SHA256 Digest                                                      |
 |-----------------------|------------------|--------------------------------------------------------------------|
+| v28.1.knots20250305   | [Xcode_15.xip]   | `4daaed2ef2253c9661779fa40bfff50655dc7ec45801aba5a39653e7bcdde48e` |
 | v27.1.knots20240801   | [Xcode_15.xip]   | `4daaed2ef2253c9661779fa40bfff50655dc7ec45801aba5a39653e7bcdde48e` |
 | v27.1.knots20240621   | [Xcode_15.xip]   | `4daaed2ef2253c9661779fa40bfff50655dc7ec45801aba5a39653e7bcdde48e` |
 | v26.1.knots20240513   | [Xcode_12.2.xip] | `28d352f8c14a43d9b8a082ac6338dc173cb153f964c6e8fb6ba389e5be528bd0` |
-| v26.1.knots20240325   | [Xcode_12.2.xip] | `28d352f8c14a43d9b8a082ac6338dc173cb153f964c6e8fb6ba389e5be528bd0` |
-| v25.1.knots20231115   | [Xcode_12.2.xip] | `28d352f8c14a43d9b8a082ac6338dc173cb153f964c6e8fb6ba389e5be528bd0` |
 
 (Note: browse the README.md file from the [`contrib/macdeploy`] directory in Bitcoin Knots at the desired tag version to cross-check this information)
 
@@ -75,13 +74,13 @@ $ python3 apple-sdk-tools/extract_xcode.py -f Downloads/Xcode_15.xip | cpio -d -
 This will create a huge `Xcode.app` folder in your home directory.
 Now clone the Bitcoin Knots repository to run another helper script that will take this directory and prepare an "Xcode SDK" from it.
 Since we are cloning the Knots repo take the opportunity to check out the specific version you want to build.
-In this guide we are building Bitcoin Knots v27.1.knots20240801, so we'll check out the `v27.1.knots20240801` tag.
+In this guide we are building Bitcoin Knots v28.1.knots20250305, so we'll check out the `v28.1.knots20250305` tag.
 
 ```shell
 $ cd $HOME
 $ git clone https://github.com/bitcoinknots/bitcoin knots
 $ cd knots
-$ git checkout v27.1.knots20240801
+$ git checkout v28.1.knots20250305
 $ cd ..
 $ ./knots/contrib/macdeploy/gen-sdk $HOME/Xcode.app
 Found Xcode (version: 15.0, build id: 15A240d)
@@ -154,7 +153,7 @@ Then proceed to clone Knots' `bitcoin-detached-sigs` repository to generate a fe
 $ cd $HOME 
 $ git clone https://github.com/bitcoinknots/bitcoin-detached-sigs knots-detached-sigs
 $ cd knots-detached-sigs
-$ git checkout v27.1.knots20240801
+$ git checkout v28.1.knots20250305
 $ cd $HOME
 $ cd knots
 $ env HOSTS='arm64-apple-darwin x86_64-apple-darwin' DETACHED_SIGS_REPO="$HOME/knots-detached-sigs/" ./contrib/guix/guix-codesign
@@ -211,9 +210,9 @@ It should look similar to [this one].
 I've put this guide together from the following sources:
 
 * Guix binary installation document: [https://guix.gnu.org/manual/en/html_node/Binary-Installation.html](https://guix.gnu.org/manual/en/html_node/Binary-Installation.html)
-* Guix README, Bitcoin Knots: [https://github.com/bitcoinknots/bitcoin/tree/26.x-knots/contrib/guix](https://github.com/bitcoinknots/bitcoin/tree/26.x-knots/contrib/guix)
-* Guix installation docs, Bitcoin Knots: [https://github.com/bitcoinknots/bitcoin/blob/26.x-knots/contrib/guix/INSTALL.md](https://github.com/bitcoinknots/bitcoin/blob/26.x-knots/contrib/guix/INSTALL.md)
-* MacOS SDK extraction guide: [https://github.com/bitcoinknots/bitcoin/tree/26.x-knots/contrib/macdeploy](https://github.com/bitcoinknots/bitcoin/tree/26.x-knots/contrib/macdeploy)
+* Guix README, Bitcoin Knots: [https://github.com/bitcoinknots/bitcoin/tree/28.x-knots/contrib/guix](https://github.com/bitcoinknots/bitcoin/tree/28.x-knots/contrib/guix)
+* Guix installation docs, Bitcoin Knots: [https://github.com/bitcoinknots/bitcoin/blob/28.x-knots/contrib/guix/INSTALL.md](https://github.com/bitcoinknots/bitcoin/blob/28.x-knots/contrib/guix/INSTALL.md)
+* MacOS SDK extraction guide: [https://github.com/bitcoinknots/bitcoin/tree/28.x-knots/contrib/macdeploy](https://github.com/bitcoinknots/bitcoin/tree/28.x-knots/contrib/macdeploy)
 
 
 [Bitcoin Knots]: https://github.com/bitcoinknots/bitcoin/
@@ -221,7 +220,7 @@ I've put this guide together from the following sources:
 [Apple's developer portal]: https://developer.apple.com/
 [Xcode_15.xip]: https://developer.apple.com/services-account/download?path=/Developer_Tools/Xcode_15/Xcode_15.xip
 [Xcode_12.2.xip]: https://developer.apple.com/services-account/download?path=/Developer_Tools/Xcode_12.2/Xcode_12.2.xip
-[`contrib/macdeploy`]: https://github.com/bitcoinknots/bitcoin/tree/v27.1.knots20240801/contrib/macdeploy
+[`contrib/macdeploy`]: https://github.com/bitcoinknots/bitcoin/tree/v28.1.knots20250305/contrib/macdeploy
 [`apple-sdk-tools`]: https://github.com/bitcoin-core/apple-sdk-tools
 [`guix.sigs`]: https://github.com/bitcoinknots/guix.sigs
 [this one]: https://github.com/bitcoinknots/guix.sigs/pull/18/files
