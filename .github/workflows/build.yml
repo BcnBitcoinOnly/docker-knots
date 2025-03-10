@@ -16,7 +16,6 @@ jobs:
         version:
           - { knots: "28.1.knots20250305" }
           - { knots: "27.1.knots20240801" }
-          - { knots: "27.1.knots20240621" }
           - { knots: "26.1.knots20240513" }
     steps:
       - uses: actions/checkout@v4

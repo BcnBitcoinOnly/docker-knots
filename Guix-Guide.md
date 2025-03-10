@@ -56,7 +56,6 @@ To be able to download these files you'll need to use a browser that is logged i
 |-----------------------|------------------|--------------------------------------------------------------------|
 | v28.1.knots20250305   | [Xcode_15.xip]   | `4daaed2ef2253c9661779fa40bfff50655dc7ec45801aba5a39653e7bcdde48e` |
 | v27.1.knots20240801   | [Xcode_15.xip]   | `4daaed2ef2253c9661779fa40bfff50655dc7ec45801aba5a39653e7bcdde48e` |
-| v27.1.knots20240621   | [Xcode_15.xip]   | `4daaed2ef2253c9661779fa40bfff50655dc7ec45801aba5a39653e7bcdde48e` |
 | v26.1.knots20240513   | [Xcode_12.2.xip] | `28d352f8c14a43d9b8a082ac6338dc173cb153f964c6e8fb6ba389e5be528bd0` |
 
 (Note: browse the README.md file from the [`contrib/macdeploy`] directory in Bitcoin Knots at the desired tag version to cross-check this information)

@@ -30,7 +30,6 @@ services:
 
 * `1maa/bitcoin:v28.1.knots20250305`
 * `1maa/bitcoin:v27.1.knots20240801`
-* `1maa/bitcoin:v27.1.knots20240621`
 * `1maa/bitcoin:v26.1.knots20240513`
 
 
