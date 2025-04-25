@@ -171,7 +171,7 @@ $ env GUIX_SIGS_REPO="$HOME/guix.sigs" SIGNER=you ./contrib/guix/guix-attest
 For that last command to work you need to have a PGP key loaded in your local keyring identifiable by that username (`you` in this example).
 If that doesn't work you can use the full key ID instead.
 
-If the command succeeds a new directory named `you` (or the key ID) will have been created inside the `guix.sigs/27.1.knots20240801` directory (or the release you built).
+If the command succeeds a new directory named `you` (or the key ID) will have been created inside the `guix.sigs/28.1.knots20250305` directory (or the release you built).
 You can rename this directory to whatever you like, especially if it has been named after a key ID.
 
 In a successful attestation this directory will contain 4 files: `all.SHA256SUMS`, `all.SHA256SUMS.asc`, `noncodesigned.SHA256SUMS` and `noncodesigned.SHA256SUMS.asc`.
@@ -181,7 +181,7 @@ The following diffs should not show any differences:
 
 ```shell
 $ cd $HOME
-$ cd guix.sigs/27.1.knots20240801
+$ cd guix.sigs/28.1.knots20250305
 $ diff luke-jr/all.SHA256SUMS you/all.SHA256SUMS
 $ diff luke-jr/noncodesigned.SHA256SUMS you/noncodesigned.SHA256SUMS
 ```
@@ -189,7 +189,7 @@ $ diff luke-jr/noncodesigned.SHA256SUMS you/noncodesigned.SHA256SUMS
 Also, if it's the first time attesting a Knots release you must include an ASCII-armored copy of your PGP public key in the `builder-keys` directory.
 This simplifies finding your public key when someone needs to verify your signatures from here on.
 
-The name of the key should match the name of the directory where you stored your attestation (e.g. `guix.sigs/27.1.knots20240801/you`).
+The name of the key should match the name of the directory where you stored your attestation (e.g. `guix.sigs/28.1.knots20250305/you`).
 
 ```shell
 $ gpg --armor --export you > builder-keys/you.gpg
