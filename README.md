@@ -1,6 +1,6 @@
 # Docker Knots
 
-Docker images of [Bitcoin Knots](https://bitcoinknots.org/) for the `linux/amd64`, `linux/arm64`, `linux/arm/v7` architectures.
+Docker images of [Bitcoin Knots](https://bitcoinknots.org/) for the `linux/amd64` and `linux/arm64` architectures.
 
 The images are based on [Alpine Linux](https://alpinelinux.org/) and run bitcoind without a configuration file.
 
@@ -21,13 +21,14 @@ name: knots-signet
 
 services:
   knots:
-    image: 1maa/bitcoin:v27.1.knots20240801
+    image: 1maa/bitcoin:v29.1.knots20250903
     command: -signet -txindex=1
 ```
 
 
 ## Available Versions
 
+* `1maa/bitcoin:v29.1.knots20250903`
 * `1maa/bitcoin:v28.1.knots20250305`
 * `1maa/bitcoin:v27.1.knots20240801`
 * `1maa/bitcoin:v26.1.knots20240513`
