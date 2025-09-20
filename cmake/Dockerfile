@@ -43,6 +43,9 @@ RUN make -C bitcoin-${KNOTS_VERSION}/depends -j$(nproc) NO_QT=1 NO_NATPMP=1 NO_U
 RUN cmake -S bitcoin-${KNOTS_VERSION} -B build \
     -DBUILD_SHARED_LIBS=OFF \
     -DBUILD_TESTS=OFF \
+    -DBUILD_TX=ON \
+    -DBUILD_UTIL=ON \
+    -DBUILD_WALLET_TOOL=ON \
     -DCMAKE_BUILD_TYPE=MinSizeRel \
     -DINSTALL_MAN=OFF \
     -DREDUCE_EXPORTS=ON \
