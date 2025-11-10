@@ -28,6 +28,7 @@ services:
 
 ## Available Versions
 
+* `1maa/bitcoin:v29.2.knots20251110`
 * `1maa/bitcoin:v29.2.knots20251010`
 * `1maa/bitcoin:v29.1.knots20250903`
 * `1maa/bitcoin:v28.1.knots20250305`
