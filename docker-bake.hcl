@@ -2,18 +2,37 @@ variable "CONTEXT" {
   type = string
   default = "cmake"
   description = "autotools up to v28.1.knots20250305, cmake after"
+  validation {
+    condition = contains(["autotools", "cmake"], CONTEXT)
+    error_message = "Invalid value for 'CONTEXT' variable"
+  }
 }
 
 variable "RUNNER" {
   type = string
   default = "ubuntu-24.04"
   description = "Runner that built the image"
+  validation {
+    condition = contains(["ubuntu-24.04", "ubuntu-24.04-arm"], RUNNER)
+    error_message = "Invalid value for 'RUNNER' variable"
+  }
 }
 
 variable "VERSION" {
   type = string
   default = "29.2.knots20251110"
   description = "Version of Knots to build"
+  validation {
+    condition = contains([
+      "26.1.knots20240513",
+      "27.1.knots20240801",
+      "28.1.knots20250305",
+      "29.1.knots20250903",
+      "29.2.knots20251010",
+      "29.2.knots20251110"
+    ], VERSION)
+    error_message = "Invalid value for 'VERSION' variable"
+  }
 }
 
 group "default" {
