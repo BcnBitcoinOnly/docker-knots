@@ -64,6 +64,7 @@ ARG KNOTS_VERSION
 COPY --from=builder /usr/local/bin/* /usr/local/bin/
 
 RUN apk add --no-cache \
+    libstdc++ \
     tor \
  && adduser -D bitcoin \
  && mkdir /home/bitcoin/.bitcoin \
