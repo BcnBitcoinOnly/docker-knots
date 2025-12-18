@@ -21,6 +21,31 @@ RUN apk add --no-cache \
  && mv bitcoin-${KNOTS_VERSION} bitcoin
 
 
+FROM alpine:3.23 AS signet-miner
+
+ENV CLI_CMD_ARGS=
+ENV MINING_XPUB=tr(tpubXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/0/*)#xxxxxxxx
+
+COPY --from=1maa/bitcoin:latest /usr/local/bin/bitcoin-cli  /usr/local/bin/bitcoin-cli
+COPY --from=1maa/bitcoin:latest /usr/local/bin/bitcoin-util /usr/local/bin/bitcoin-util
+
+COPY --from=verifier /tmp/bitcoin/test/functional/test_framework /usr/local/src/bitcoin/test/functional/test_framework
+COPY --from=verifier /tmp/bitcoin/contrib/signet/miner           /usr/local/src/bitcoin/contrib/signet/miner
+
+COPY --chown=0:0 --chmod=755 signet-miner-entrypoint.sh /opt/entrypoint.sh
+
+RUN apk add --no-cache \
+    python3 \
+ && adduser -D miner \
+ && ln -s /usr/local/src/bitcoin/contrib/signet/miner /usr/local/bin/miner
+
+USER miner
+
+STOPSIGNAL SIGINT
+
+ENTRYPOINT ["/opt/entrypoint.sh"]
+
+
 FROM alpine:3.23 AS builder
 
 ARG KNOTS_VERSION
@@ -57,31 +82,6 @@ RUN cmake -S bitcoin-${KNOTS_VERSION} -B build \
 RUN cmake --build build -j $(nproc)
 
 RUN cmake --install build
-
-
-FROM alpine:3.23 AS signet-miner
-
-ENV CLI_CMD=bitcoin-cli
-ENV MINING_XPUB=tr(tpubXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/0/*)#xxxxxxxx
-
-COPY --from=1maa/bitcoin:latest /usr/local/bin/bitcoin-cli  /usr/local/bin/bitcoin-cli
-COPY --from=1maa/bitcoin:latest /usr/local/bin/bitcoin-util /usr/local/bin/bitcoin-util
-
-COPY --from=verifier /tmp/bitcoin/test/functional/test_framework /usr/local/src/bitcoin/test/functional/test_framework
-COPY --from=verifier /tmp/bitcoin/contrib/signet/miner           /usr/local/src/bitcoin/contrib/signet/miner
-
-COPY --chown=0:0 --chmod=755 signet-miner-entrypoint.sh /opt/entrypoint.sh
-
-RUN apk add --no-cache \
-    python3 \
- && adduser -D bitcoin \
- && ln -s /usr/local/src/bitcoin/contrib/signet/miner /usr/local/bin/miner
-
-USER bitcoin
-
-STOPSIGNAL SIGINT
-
-ENTRYPOINT ["/opt/entrypoint.sh"]
 
 
 FROM alpine:3.23 AS final
