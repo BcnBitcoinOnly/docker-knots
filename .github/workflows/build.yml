@@ -18,7 +18,6 @@ jobs:
       fail-fast: false
       matrix:
         knots:
-          - { version: "26.1.knots20240513", context: "autotools" }
           - { version: "27.1.knots20240801", context: "autotools" }
           - { version: "28.1.knots20250305", context: "autotools" }
           - { version: "29.1.knots20250903", context: "cmake" }
@@ -55,7 +54,6 @@ jobs:
       fail-fast: false
       matrix:
         knots_version:
-          - "26.1.knots20240513"
           - "27.1.knots20240801"
           - "28.1.knots20250305"
           - "29.1.knots20250903"

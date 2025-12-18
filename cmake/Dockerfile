@@ -1,4 +1,4 @@
-FROM alpine:3.22 AS verifier
+FROM alpine:3.23 AS verifier
 
 ARG KNOTS_VERSION
 
@@ -19,7 +19,7 @@ RUN apk add --no-cache \
  && sha256sum --ignore-missing -c SHA256SUMS
 
 
-FROM alpine:3.22 AS builder
+FROM alpine:3.23 AS builder
 
 ARG KNOTS_VERSION
 
@@ -57,7 +57,7 @@ RUN cmake --build build -j $(nproc)
 RUN cmake --install build
 
 
-FROM alpine:3.22 AS final
+FROM alpine:3.23 AS final
 
 ARG KNOTS_VERSION
 
