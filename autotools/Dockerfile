@@ -79,8 +79,6 @@ RUN make -C ./build install
 
 FROM alpine:3.23 AS final
 
-ARG KNOTS_VERSION
-
 COPY --from=builder /usr/local/bin/* /usr/local/bin/
 
 RUN apk add --no-cache \
