@@ -13,7 +13,6 @@ RUN apk add --no-cache \
     coreutils \
     curl \
     gnupg \
-    gnupg-keyboxd \
     jq \
  && curl -s https://api.github.com/repos/bitcoinknots/guix.sigs/contents/builder-keys | jq -r '.[].download_url' | while read url; do curl -s "$url" | gpg --import; done \
  && gpg --verify SHA256SUMS.asc SHA256SUMS \

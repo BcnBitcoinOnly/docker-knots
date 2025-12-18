@@ -13,7 +13,6 @@ RUN apk add --no-cache \
     coreutils \
     curl \
     gnupg \
-    gnupg-keyboxd \
     jq \
  && curl -s https://api.github.com/repos/bitcoinknots/guix.sigs/contents/builder-keys | jq -r '.[].download_url' | while read url; do curl -s "$url" | gpg --import; done \
  && curl -s https://raw.githubusercontent.com/bitcoinknots/guix.sigs/dee022a799a57b0fd446b62d0c29c25ed412b86b/builder-keys/leo-haf.gpg | gpg --import \
