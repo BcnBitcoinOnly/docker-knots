@@ -28,6 +28,8 @@ services:
 
 ## Available Versions
 
+* `1maa/bitcoin:latest`
+* `1maa/bitcoin:signet-miner`
 * `1maa/bitcoin:v29.2.knots20251110`
 * `1maa/bitcoin:v29.2.knots20251010`
 * `1maa/bitcoin:v29.1.knots20250903`
@@ -45,6 +47,6 @@ For a step-by-step guide to do a deterministic build of Bitcoin Knots and attest
 
 ## Signet Miner
 
-This image includes the sources of the CPU signet miner from `contrib/signet`.
+The image variant `1maa/bitcoin:signet-miner` contains the `contrib/signet` CPU miner for signet networks.
 
-For an example on how to use this image in signet mining mode refer to the `miner` service in the compose.yml file of the [signet-playground](https://github.com/BcnBitcoinOnly/signet-playground/blob/master/compose.yml) repository.
+For an example on how to use this image refer to the `miner` service in the compose.yml file of the [signet-playground](https://github.com/BcnBitcoinOnly/signet-playground/blob/master/compose.yml) repository.

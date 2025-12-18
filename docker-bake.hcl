@@ -36,7 +36,7 @@ variable "VERSION" {
 }
 
 group "default" {
-  targets = ["knots"]
+  targets = ["knots", "miner"]
 }
 
 target "knots" {
@@ -50,4 +50,18 @@ target "knots" {
     ref = "ghcr.io/bcnbitcoinonly/bitcoin:v${VERSION}-${RUNNER}"
   }]
   tags = ["ghcr.io/bcnbitcoinonly/bitcoin:v${VERSION}-${RUNNER}"]
+}
+
+target "miner" {
+  args = {
+    KNOTS_VERSION = "29.2.knots20251110"
+  }
+  context = "miner"
+  cache-to = [{type = "inline"}]
+  cache-from = [{
+    type = "registry"
+    ref = "1maa/bitcoin:signet-miner"
+  }]
+  platforms = ["linux/amd64", "linux/arm64"]
+  tags = ["1maa/bitcoin:signet-miner"]
 }

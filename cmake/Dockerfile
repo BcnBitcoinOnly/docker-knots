@@ -62,16 +62,12 @@ FROM alpine:3.22 AS final
 ARG KNOTS_VERSION
 
 COPY --from=builder /usr/local/bin/* /usr/local/bin/
-COPY --from=builder /tmp/bitcoin-${KNOTS_VERSION}/test/functional/test_framework /opt/bitcoin/test/functional/test_framework
-COPY --from=builder /tmp/bitcoin-${KNOTS_VERSION}/contrib/signet/miner           /opt/bitcoin/contrib/signet/miner
 
 RUN apk add --no-cache \
-    python3 \
     tor \
  && adduser -D bitcoin \
  && mkdir /home/bitcoin/.bitcoin \
- && chown bitcoin:bitcoin /home/bitcoin/.bitcoin \
- && ln -s /opt/bitcoin/contrib/signet/miner /usr/local/bin/miner
+ && chown bitcoin:bitcoin /home/bitcoin/.bitcoin
 
 USER bitcoin
 
