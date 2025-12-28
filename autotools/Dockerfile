@@ -38,7 +38,8 @@ RUN apk add --no-cache \
     git \
     libtool \
     linux-headers \
-    pkgconf
+    pkgconf \
+    upx
 
 RUN tar zxf bitcoin-${KNOTS_VERSION}.tar.gz
 
@@ -46,9 +47,9 @@ RUN ./bitcoin-${KNOTS_VERSION}/autogen.sh
 
 RUN make -C bitcoin-${KNOTS_VERSION}/depends -j$(nproc) NO_QT=1 NO_NATPMP=1 NO_UPNP=1 NO_USDT=1
 
-ENV CFLAGS="-O2 --static -static -fPIC"
-ENV CXXFLAGS="-O2 --static -static -fPIC"
-ENV LDFLAGS="-s -static-libgcc -static-libstdc++"
+ENV CFLAGS="-g0 -Os --static -static -fPIC"
+ENV CXXFLAGS="-g0 -Os --static -static -fPIC"
+ENV LDFLAGS="-Wl,--strip-all -static-libgcc -static-libstdc++"
 
 RUN CONFIG_SITE=$(find /tmp/bitcoin-${KNOTS_VERSION}/depends | grep -E "config\.site$") \
  && mkdir build \
@@ -76,12 +77,14 @@ RUN make -C ./build -j$(nproc)
 
 RUN make -C ./build install
 
+RUN upx --lzma /usr/local/bin/*
 
 FROM alpine:3.23 AS final
 
 COPY --from=builder /usr/local/bin/* /usr/local/bin/
 
 RUN apk add --no-cache \
+    libgcc \
     libstdc++ \
     tor \
  && adduser -D bitcoin \
