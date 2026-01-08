@@ -24,6 +24,7 @@ RUN apk add --no-cache \
 FROM alpine:3.23 AS signet-miner
 
 ENV CLI_CMD_ARGS=
+ENV MAX_INTERVAL=1800
 ENV MINING_XPUB=tr(tpubXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/0/*)#xxxxxxxx
 
 COPY --from=1maa/bitcoin:latest /usr/local/bin/bitcoin-cli  /usr/local/bin/bitcoin-cli
@@ -31,6 +32,12 @@ COPY --from=1maa/bitcoin:latest /usr/local/bin/bitcoin-util /usr/local/bin/bitco
 
 COPY --from=verifier /tmp/bitcoin/test/functional/test_framework /usr/local/src/bitcoin/test/functional/test_framework
 COPY --from=verifier /tmp/bitcoin/contrib/signet/miner           /usr/local/src/bitcoin/contrib/signet/miner
+
+RUN sed -i '/if args\.max_interval < 960:/{     \
+  N                                             \
+  N                                             \
+  d                                             \
+}' /usr/local/src/bitcoin/contrib/signet/miner
 
 COPY --chown=0:0 --chmod=755 signet-miner-entrypoint.sh /opt/entrypoint.sh
 

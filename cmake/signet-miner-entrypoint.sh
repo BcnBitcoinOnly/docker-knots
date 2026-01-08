@@ -5,5 +5,6 @@ exec /usr/local/bin/miner \
   generate \
   --descriptor "${MINING_XPUB}" \
   --grind-cmd="bitcoin-util grind" \
+  --max-interval ${MAX_INTERVAL} \
   --min-nbits \
   --ongoing
