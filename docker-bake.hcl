@@ -69,3 +69,15 @@ target "miner" {
   tags = ["1maa/bitcoin:signet-miner"]
   target = "signet-miner"
 }
+
+target "bip110" {
+  context = "bip110"
+  cache-to = [{ type = "inline" }]
+  cache-from = [
+    {
+      type = "registry"
+      ref  = "ghcr.io/bcnbitcoinonly/bitcoin:v29.2.knots20251110-bip110-v0.1rc3-${RUNNER}"
+    }
+  ]
+  tags = ["ghcr.io/bcnbitcoinonly/bitcoin:v29.2.knots20251110-bip110-v0.1rc3-${RUNNER}"]
+}

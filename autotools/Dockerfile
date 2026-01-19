@@ -79,6 +79,7 @@ RUN make -C ./build install
 
 RUN upx --lzma /usr/local/bin/*
 
+
 FROM alpine:3.23 AS final
 
 COPY --from=builder /usr/local/bin/* /usr/local/bin/
