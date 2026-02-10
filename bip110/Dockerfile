@@ -2,9 +2,9 @@ FROM alpine:3.23 AS verifier
 
 WORKDIR /tmp
 
-RUN wget https://github.com/dathonohm/bitcoin/releases/download/v29.2.knots20251110%2Bbip110-v0.1rc3/SHA256SUMS \
- && wget https://github.com/dathonohm/bitcoin/releases/download/v29.2.knots20251110%2Bbip110-v0.1rc3/SHA256SUMS.asc \
- && wget https://github.com/dathonohm/bitcoin/releases/download/v29.2.knots20251110%2Bbip110-v0.1rc3/bitcoin-29.2.knots20251110+bip110-v0.1rc3.tar.gz
+RUN wget https://github.com/dathonohm/bitcoin/releases/download/v29.2.knots20251110%2Bbip110-v0.1/SHA256SUMS \
+ && wget https://github.com/dathonohm/bitcoin/releases/download/v29.2.knots20251110%2Bbip110-v0.1/SHA256SUMS.asc \
+ && wget https://github.com/dathonohm/bitcoin/releases/download/v29.2.knots20251110%2Bbip110-v0.1/bitcoin-29.2.knots20251110+bip110-v0.1.tar.gz
 
 RUN apk add --no-cache \
     coreutils \
@@ -14,7 +14,7 @@ RUN apk add --no-cache \
  && curl -s https://api.github.com/repos/dathonohm/guix.sigs/contents/builder-keys | jq -r '.[].download_url' | while read url; do curl -s "$url" | gpg --import; done \
  && gpg --verify SHA256SUMS.asc SHA256SUMS \
  && sha256sum --ignore-missing -c SHA256SUMS \
- && mv bitcoin-29.2.knots20251110+bip110-v0.1rc3.tar.gz bitcoin.tar.gz
+ && mv bitcoin-29.2.knots20251110+bip110-v0.1.tar.gz bitcoin.tar.gz
 
 
 FROM alpine:3.23 AS builder
@@ -34,9 +34,9 @@ RUN apk add --no-cache \
 
 RUN tar zxf bitcoin.tar.gz
 
-RUN make -C bitcoin-29.2.knots20251110+bip110-v0.1rc3/depends -j$(nproc) NO_QT=1 NO_NATPMP=1 NO_UPNP=1 NO_USDT=1
+RUN make -C bitcoin-29.2.knots20251110+bip110-v0.1/depends -j$(nproc) NO_QT=1 NO_NATPMP=1 NO_UPNP=1 NO_USDT=1
 
-RUN cmake -S bitcoin-29.2.knots20251110+bip110-v0.1rc3 -B build \
+RUN cmake -S bitcoin-29.2.knots20251110+bip110-v0.1 -B build \
     -DAPPEND_CPPFLAGS=-g0 \
     -DAPPEND_LDFLAGS=-Wl,--strip-all \
     -DBUILD_SHARED_LIBS=OFF \
@@ -51,7 +51,7 @@ RUN cmake -S bitcoin-29.2.knots20251110+bip110-v0.1rc3 -B build \
     -DSECP256K1_APPEND_LDFLAGS=-Wl,--strip-all \
     -DWITH_BDB=ON \
     -DWITH_ZMQ=ON \
-    --toolchain $(find /tmp/bitcoin-29.2.knots20251110+bip110-v0.1rc3/depends | grep -E "toolchain\.cmake$")
+    --toolchain $(find /tmp/bitcoin-29.2.knots20251110+bip110-v0.1/depends | grep -E "toolchain\.cmake$")
 
 RUN cmake --build build -j $(nproc)
 
