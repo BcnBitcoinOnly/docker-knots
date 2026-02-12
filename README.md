@@ -30,11 +30,17 @@ services:
 
 * `1maa/bitcoin:latest`
 * `1maa/bitcoin:signet-miner`
+* `1maa/bitcoin:v29.3.knots20260210`
 * `1maa/bitcoin:v29.2.knots20251110`
 * `1maa/bitcoin:v29.2.knots20251010`
 * `1maa/bitcoin:v29.1.knots20250903`
 * `1maa/bitcoin:v28.1.knots20250305`
 * `1maa/bitcoin:v27.1.knots20240801`
+
+
+## Other
+
+* `1maa/bitcoin:v29.2.knots20251110-bip110-v0.1`
 
 
 ## Deterministic Build Guide

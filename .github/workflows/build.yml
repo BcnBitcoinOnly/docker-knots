@@ -23,6 +23,7 @@ jobs:
           - { version: "29.1.knots20250903", context: "cmake" }
           - { version: "29.2.knots20251010", context: "cmake" }
           - { version: "29.2.knots20251110", context: "cmake" }
+          - { version: "29.3.knots20260210", context: "cmake" }
         runner:
           - "ubuntu-24.04"
           - "ubuntu-24.04-arm"
@@ -85,8 +86,9 @@ jobs:
           - "29.1.knots20250903"
           - "29.2.knots20251010"
           - "29.2.knots20251110"
+          - "29.3.knots20260210"
     env:
-      LATEST_VERSION: "29.2.knots20251110"
+      LATEST_VERSION: "29.3.knots20260210"
     steps:
       - uses: docker/setup-buildx-action@v3
       - uses: docker/login-action@v3

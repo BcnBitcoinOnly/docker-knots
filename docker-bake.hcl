@@ -20,7 +20,7 @@ variable "RUNNER" {
 
 variable "VERSION" {
   type        = string
-  default     = "29.2.knots20251110"
+  default     = "29.3.knots20260210"
   description = "Version of Knots to build"
   validation {
     condition = contains([
@@ -28,7 +28,8 @@ variable "VERSION" {
       "28.1.knots20250305",
       "29.1.knots20250903",
       "29.2.knots20251010",
-      "29.2.knots20251110"
+      "29.2.knots20251110",
+      "29.3.knots20260210"
     ], VERSION)
     error_message = "Invalid value for 'VERSION' variable"
   }
