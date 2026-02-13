@@ -119,9 +119,9 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASS }}
       - run: |
           docker buildx imagetools create \
-            -t 1maa/bitcoin:v29.2.knots20251110-bip110-v0.1 \
-            ghcr.io/bcnbitcoinonly/bitcoin:v29.2.knots20251110-bip110-v0.1-ubuntu-24.04 \
-            ghcr.io/bcnbitcoinonly/bitcoin:v29.2.knots20251110-bip110-v0.1-ubuntu-24.04-arm
+            -t 1maa/bitcoin:v29.3.knots20260210-bip110-v0.2 \
+            ghcr.io/bcnbitcoinonly/bitcoin:v29.3.knots20260210-bip110-v0.2-ubuntu-24.04 \
+            ghcr.io/bcnbitcoinonly/bitcoin:v29.3.knots20260210-bip110-v0.2-ubuntu-24.04-arm
 
   cleanup:
     name: Cleanup old GHCR tags

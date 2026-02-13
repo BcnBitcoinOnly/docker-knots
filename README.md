@@ -40,7 +40,7 @@ services:
 
 ## Other
 
-* `1maa/bitcoin:v29.2.knots20251110-bip110-v0.1`
+* `1maa/bitcoin:v29.3.knots20260210-bip110-v0.2`
 
 
 ## Deterministic Build Guide
