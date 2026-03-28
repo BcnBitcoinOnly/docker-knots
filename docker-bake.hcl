@@ -77,8 +77,8 @@ target "bip110" {
   cache-from = [
     {
       type = "registry"
-      ref  = "ghcr.io/bcnbitcoinonly/bitcoin:v29.3.knots20260210-bip110-v0.2-${RUNNER}"
+      ref  = "ghcr.io/bcnbitcoinonly/bitcoin:v29.3.knots20260210-bip110-v0.4.1-${RUNNER}"
     }
   ]
-  tags = ["ghcr.io/bcnbitcoinonly/bitcoin:v29.3.knots20260210-bip110-v0.2-${RUNNER}"]
+  tags = ["ghcr.io/bcnbitcoinonly/bitcoin:v29.3.knots20260210-bip110-v0.4.1-${RUNNER}"]
 }
