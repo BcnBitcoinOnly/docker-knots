@@ -1,4 +1,4 @@
-FROM alpine:3.23 AS verifier
+FROM alpine:3.24 AS verifier
 
 ARG KNOTS_VERSION
 
@@ -21,7 +21,7 @@ RUN apk add --no-cache \
  && mv bitcoin-${KNOTS_VERSION} bitcoin
 
 
-FROM alpine:3.23 AS signet-miner
+FROM alpine:3.24 AS signet-miner
 
 ENV CLI_CMD_ARGS=
 ENV MAX_INTERVAL=1800
@@ -53,7 +53,7 @@ STOPSIGNAL SIGINT
 ENTRYPOINT ["/opt/entrypoint.sh"]
 
 
-FROM alpine:3.23 AS builder
+FROM alpine:3.24 AS builder
 
 ARG KNOTS_VERSION
 
@@ -98,7 +98,7 @@ RUN cmake --install build
 RUN upx --lzma /usr/local/bin/*
 
 
-FROM alpine:3.23 AS final
+FROM alpine:3.24 AS final
 
 COPY --from=builder /usr/local/bin/* /usr/local/bin/
 

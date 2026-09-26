@@ -1,4 +1,4 @@
-FROM alpine:3.23 AS verifier
+FROM alpine:3.24 AS verifier
 
 ARG KNOTS_VERSION
 
@@ -20,7 +20,7 @@ RUN apk add --no-cache \
  && sha256sum --ignore-missing -c SHA256SUMS
 
 
-FROM alpine:3.23 AS builder
+FROM alpine:3.24 AS builder
 
 ARG KNOTS_VERSION
 
@@ -80,7 +80,7 @@ RUN make -C ./build install
 RUN upx --lzma /usr/local/bin/*
 
 
-FROM alpine:3.23 AS final
+FROM alpine:3.24 AS final
 
 COPY --from=builder /usr/local/bin/* /usr/local/bin/
 

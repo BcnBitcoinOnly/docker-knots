@@ -24,22 +24,23 @@ jobs:
           - { version: "29.2.knots20251010", context: "cmake" }
           - { version: "29.2.knots20251110", context: "cmake" }
           - { version: "29.3.knots20260210", context: "cmake" }
+          - { version: "29.3.knots20260507", context: "cmake" }
         runner:
-          - "ubuntu-24.04"
-          - "ubuntu-24.04-arm"
+          - "ubuntu-26.04"
+          - "ubuntu-26.04-arm"
     env:
       CONTEXT: ${{ matrix.knots.context }}
       RUNNER: ${{ matrix.runner }}
       VERSION: ${{ matrix.knots.version }}
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-      - uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd # v4.0.0
-      - uses: docker/login-action@b45d80f862d83dbcd57f89517bcf500b2ab88fb2 # v4.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+      - uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - uses: docker/bake-action@82490499d2e5613fcead7e128237ef0b0ea210f7 # v7.0.0
+      - uses: docker/bake-action@018cb6412ab401ebaa809aa5f85966b74628600f # v7.4.0
         with:
           provenance: false
           push: true
@@ -53,19 +54,19 @@ jobs:
       fail-fast: false
       matrix:
         runner:
-          - "ubuntu-24.04"
-          - "ubuntu-24.04-arm"
+          - "ubuntu-26.04"
+          - "ubuntu-26.04-arm"
     env:
       RUNNER: ${{ matrix.runner }}
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-      - uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd # v4.0.0
-      - uses: docker/login-action@b45d80f862d83dbcd57f89517bcf500b2ab88fb2 # v4.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+      - uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - uses: docker/bake-action@82490499d2e5613fcead7e128237ef0b0ea210f7 # v7.0.0
+      - uses: docker/bake-action@018cb6412ab401ebaa809aa5f85966b74628600f # v7.4.0
         with:
           provenance: false
           push: true
@@ -87,19 +88,20 @@ jobs:
           - "29.2.knots20251010"
           - "29.2.knots20251110"
           - "29.3.knots20260210"
+          - "29.3.knots20260507"
     env:
-      LATEST_VERSION: "29.3.knots20260210"
+      LATEST_VERSION: "29.3.knots20260507"
     steps:
-      - uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd # v4.0.0
-      - uses: docker/login-action@b45d80f862d83dbcd57f89517bcf500b2ab88fb2 # v4.0.0
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+      - uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
         with:
           username: 1maa
           password: ${{ secrets.DOCKER_HUB_PASS }}
       - run: |
           docker buildx imagetools create \
             -t 1maa/bitcoin:v${{ matrix.knots_version }} \
-            ghcr.io/bcnbitcoinonly/bitcoin:v${{ matrix.knots_version }}-ubuntu-24.04 \
-            ghcr.io/bcnbitcoinonly/bitcoin:v${{ matrix.knots_version }}-ubuntu-24.04-arm
+            ghcr.io/bcnbitcoinonly/bitcoin:v${{ matrix.knots_version }}-ubuntu-26.04 \
+            ghcr.io/bcnbitcoinonly/bitcoin:v${{ matrix.knots_version }}-ubuntu-26.04-arm
       - if: ${{ matrix.knots_version == env.LATEST_VERSION }}
         run: |
           docker buildx imagetools create \
@@ -112,16 +114,16 @@ jobs:
     needs:
       - build-bip110
     steps:
-      - uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd # v4.0.0
-      - uses: docker/login-action@b45d80f862d83dbcd57f89517bcf500b2ab88fb2 # v4.0.0
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+      - uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
         with:
           username: 1maa
           password: ${{ secrets.DOCKER_HUB_PASS }}
       - run: |
           docker buildx imagetools create \
             -t 1maa/bitcoin:v29.3.knots20260210-bip110-v0.4.1 \
-            ghcr.io/bcnbitcoinonly/bitcoin:v29.3.knots20260210-bip110-v0.4.1-ubuntu-24.04 \
-            ghcr.io/bcnbitcoinonly/bitcoin:v29.3.knots20260210-bip110-v0.4.1-ubuntu-24.04-arm
+            ghcr.io/bcnbitcoinonly/bitcoin:v29.3.knots20260210-bip110-v0.4.1-ubuntu-26.04 \
+            ghcr.io/bcnbitcoinonly/bitcoin:v29.3.knots20260210-bip110-v0.4.1-ubuntu-26.04-arm
 
   cleanup:
     name: Cleanup old GHCR tags
@@ -130,7 +132,7 @@ jobs:
       - merge
       - merge-bip110
     steps:
-      - uses: docker/login-action@b45d80f862d83dbcd57f89517bcf500b2ab88fb2 # v4.0.0
+      - uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -148,14 +150,14 @@ jobs:
     needs:
       - merge
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-      - uses: docker/setup-qemu-action@ce360397dd3f832beb865e1373c09c0e9f86d70a # v4.0.0
-      - uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd # v4.0.0
-      - uses: docker/login-action@b45d80f862d83dbcd57f89517bcf500b2ab88fb2 # v4.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: docker/setup-qemu-action@99012661954931238ded8c8b007157a8430204e1 # v4.4.0
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+      - uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
         with:
           username: 1maa
           password: ${{ secrets.DOCKER_HUB_PASS }}
-      - uses: docker/bake-action@82490499d2e5613fcead7e128237ef0b0ea210f7 # v7.0.0
+      - uses: docker/bake-action@018cb6412ab401ebaa809aa5f85966b74628600f # v7.4.0
         with:
           provenance: false
           push: true

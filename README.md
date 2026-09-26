@@ -21,7 +21,7 @@ name: knots-signet
 
 services:
   knots:
-    image: 1maa/bitcoin:v29.1.knots20250903
+    image: 1maa/bitcoin:v29.3.knots20260507
     command: -signet -txindex=1
 ```
 
@@ -30,6 +30,7 @@ services:
 
 * `1maa/bitcoin:latest`
 * `1maa/bitcoin:signet-miner`
+* `1maa/bitcoin:v29.3.knots20260507`
 * `1maa/bitcoin:v29.3.knots20260210`
 * `1maa/bitcoin:v29.2.knots20251110`
 * `1maa/bitcoin:v29.2.knots20251010`

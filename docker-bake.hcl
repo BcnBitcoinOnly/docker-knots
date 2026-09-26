@@ -10,17 +10,17 @@ variable "CONTEXT" {
 
 variable "RUNNER" {
   type        = string
-  default     = "ubuntu-24.04"
+  default     = "ubuntu-26.04"
   description = "Runner that built the image"
   validation {
-    condition = contains(["ubuntu-24.04", "ubuntu-24.04-arm"], RUNNER)
+    condition = contains(["ubuntu-26.04", "ubuntu-26.04-arm"], RUNNER)
     error_message = "Invalid value for 'RUNNER' variable"
   }
 }
 
 variable "VERSION" {
   type        = string
-  default     = "29.3.knots20260210"
+  default     = "29.3.knots20260507"
   description = "Version of Knots to build"
   validation {
     condition = contains([
@@ -29,7 +29,8 @@ variable "VERSION" {
       "29.1.knots20250903",
       "29.2.knots20251010",
       "29.2.knots20251110",
-      "29.3.knots20260210"
+      "29.3.knots20260210",
+      "29.3.knots20260507"
     ], VERSION)
     error_message = "Invalid value for 'VERSION' variable"
   }

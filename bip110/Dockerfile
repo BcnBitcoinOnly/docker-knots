@@ -1,4 +1,4 @@
-FROM alpine:3.23 AS verifier
+FROM alpine:3.24 AS verifier
 
 WORKDIR /tmp
 
@@ -17,7 +17,7 @@ RUN apk add --no-cache \
  && mv bitcoin-29.3.knots20260210+bip110-v0.4.1.tar.gz bitcoin.tar.gz
 
 
-FROM alpine:3.23 AS builder
+FROM alpine:3.24 AS builder
 
 WORKDIR /tmp
 
@@ -60,7 +60,7 @@ RUN cmake --install build
 RUN upx --lzma /usr/local/bin/*
 
 
-FROM alpine:3.23 AS final
+FROM alpine:3.24 AS final
 
 COPY --from=builder /usr/local/bin/* /usr/local/bin/
 
