@@ -1,4 +1,6 @@
-FROM alpine:3.24 AS verifier
+ARG PUBLIC_ALPINE_IMAGE="sha256:0000000000000000000000000000000000000000000000000000000000000000"
+
+FROM alpine@${PUBLIC_ALPINE_IMAGE} AS verifier
 
 ARG KNOTS_VERSION
 
@@ -21,7 +23,7 @@ RUN apk add --no-cache \
  && mv bitcoin-${KNOTS_VERSION} bitcoin
 
 
-FROM alpine:3.24 AS signet-miner
+FROM alpine@${PUBLIC_ALPINE_IMAGE} AS signet-miner
 
 ENV CLI_CMD_ARGS=
 ENV MAX_INTERVAL=1800
@@ -53,7 +55,7 @@ STOPSIGNAL SIGINT
 ENTRYPOINT ["/opt/entrypoint.sh"]
 
 
-FROM alpine:3.24 AS builder
+FROM alpine@${PUBLIC_ALPINE_IMAGE} AS builder
 
 ARG KNOTS_VERSION
 
@@ -98,7 +100,7 @@ RUN cmake --install build
 RUN upx --lzma /usr/local/bin/*
 
 
-FROM alpine:3.24 AS final
+FROM alpine@${PUBLIC_ALPINE_IMAGE} AS final
 
 COPY --from=builder /usr/local/bin/* /usr/local/bin/
 
