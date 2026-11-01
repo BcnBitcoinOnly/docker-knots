@@ -36,11 +36,6 @@ variable "VERSION" {
   }
 }
 
-variable "PUBLIC_ALPINE_IMAGE" {
-  type = string
-  default = "sha256:be2656061b536c1883c4034790e21d0a09c5aaaf51968b89368a3c0371ea2c9a" # :3.24
-}
-
 group "default" {
   targets = ["knots", "miner"]
 }
@@ -48,7 +43,6 @@ group "default" {
 target "knots" {
   args = {
     KNOTS_VERSION = VERSION
-    PUBLIC_ALPINE_IMAGE = PUBLIC_ALPINE_IMAGE
   }
   context = CONTEXT
   cache-to = [{ type = "inline" }]
@@ -64,7 +58,6 @@ target "knots" {
 target "miner" {
   args = {
     KNOTS_VERSION = VERSION
-    PUBLIC_ALPINE_IMAGE = PUBLIC_ALPINE_IMAGE
   }
   context = "cmake"
   cache-to = [{ type = "inline" }]
