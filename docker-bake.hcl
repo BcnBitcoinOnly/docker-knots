@@ -1,20 +1,10 @@
-variable "CONTEXT" {
-  type        = string
-  default     = "cmake"
-  description = "autotools up to v28.1.knots20250305, cmake after"
+variable "RUNNER_ARCH" {
+  type = string
+  default = "X64"
+  description = "The architecture of the runner executing the job"
   validation {
-    condition = contains(["autotools", "cmake"], CONTEXT)
-    error_message = "Invalid value for 'CONTEXT' variable"
-  }
-}
-
-variable "RUNNER" {
-  type        = string
-  default     = "ubuntu-26.04"
-  description = "Runner that built the image"
-  validation {
-    condition = contains(["ubuntu-26.04", "ubuntu-26.04-arm"], RUNNER)
-    error_message = "Invalid value for 'RUNNER' variable"
+    condition = contains(["ARM64", "X64"], RUNNER_ARCH)
+    error_message = "Invalid value for 'RUNNER_ARCH' variable"
   }
 }
 
@@ -44,22 +34,22 @@ target "knots" {
   args = {
     KNOTS_VERSION = VERSION
   }
-  context = CONTEXT
+  context = "."
   cache-to = [{ type = "inline" }]
   cache-from = [
     {
       type = "registry"
-      ref  = "ghcr.io/bcnbitcoinonly/bitcoin:v${VERSION}-${RUNNER}"
+      ref  = "ghcr.io/bcnbitcoinonly/bitcoin:v${VERSION}-${RUNNER_ARCH}"
     }
   ]
-  tags = ["ghcr.io/bcnbitcoinonly/bitcoin:v${VERSION}-${RUNNER}"]
+  tags = ["ghcr.io/bcnbitcoinonly/bitcoin:v${VERSION}-${RUNNER_ARCH}"]
 }
 
 target "miner" {
   args = {
     KNOTS_VERSION = VERSION
   }
-  context = "cmake"
+  context = "."
   cache-to = [{ type = "inline" }]
   cache-from = [
     {
