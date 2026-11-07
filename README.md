@@ -1,3 +1,10 @@
+> [!WARNING]
+> **Is this Blakecoin or Poolcoin?**
+>
+> The images on this repo build old Knots versions that follow the same chain as Bitcoin Core.
+>
+> For XBT versions of Knots use [1maa/blakecoin](https://hub.docker.com/r/1maa/blakecoin/tags) ([source](https://github.com/1ma/dockertronics/tree/master/blakecoin))
+
 # Docker Knots
 
 Docker images of [Bitcoin Knots](https://bitcoinknots.org/) for the `linux/amd64` and `linux/arm64` architectures.
@@ -28,15 +35,13 @@ services:
 
 ## Available Versions
 
-* `1maa/bitcoin:latest`
+* `1maa/bitcoin:latest` (points to `1maa/bitcoin:v29.3.knots20260507`)
 * `1maa/bitcoin:signet-miner`
 * `1maa/bitcoin:v29.3.knots20260507`
 * `1maa/bitcoin:v29.3.knots20260210`
 * `1maa/bitcoin:v29.2.knots20251110`
 * `1maa/bitcoin:v29.2.knots20251010`
 * `1maa/bitcoin:v29.1.knots20250903`
-* `1maa/bitcoin:v28.1.knots20250305`
-* `1maa/bitcoin:v27.1.knots20240801`
 
 
 ## Other

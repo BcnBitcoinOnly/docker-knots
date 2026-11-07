@@ -14,8 +14,6 @@ variable "VERSION" {
   description = "Version of Knots to build"
   validation {
     condition = contains([
-      "27.1.knots20240801",
-      "28.1.knots20250305",
       "29.1.knots20250903",
       "29.2.knots20251010",
       "29.2.knots20251110",

@@ -4,6 +4,11 @@ on:
   push:
     branches:
       - master
+    paths:
+      - ".github/workflows/build.yml"
+      - "Dockerfile"
+      - "docker-bake.hcl"
+      - "signet-miner-entrypoint.sh"
   workflow_dispatch:
 
 permissions:
